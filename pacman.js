@@ -3,6 +3,9 @@ let score = 0;
 let lives = 2;
 let pellets = 4;
 let dots = 240;
+let ghostsEaten = 0;
+let level = 1;
+// let rand_num = 0;
 
 
 // Define your ghosts here
@@ -56,7 +59,7 @@ function clearScreen() {
 
 function displayStats() {
   console.log(`Score: ${score}             Lives: ${lives}`);
-  console.log('');
+  console.log(`Level: ${level}`);
   console.log(`Power-Pellets: ${pellets}     Dots: ${dots}`)
 }
 
@@ -95,24 +98,38 @@ function displayPrompt() {
 function eatDot() {
   console.log('\nChomp!');
   dots -= 1;
+  levelCheck();
   score += 10;
 }
 
 function eatTenDot() {
   console.log('\nCHOMP!');
   dots -= 10;
+  levelCheck();
   score += 100;
 }
 
 function eatHundredDot() {
   console.log('\nCHOMP!!!!!');
   dots -= 100;
+  levelCheck();
   score += 1000;
+}
+
+function levelCheck() {
+  if (dots == 0) {
+    level += 1;
+    dots = 240
+    ghosts.forEach(function(ghost) {
+      ghost['edible'] = false;
+    })
+  }
 }
 
 function eatGhost(ghost) {
   if (ghost['edible']) {
-    score += 200;
+    ghostsEaten += 1;
+    score += (2**ghostsEaten * 100);
     ghost['edible'] = false;
     console.log(`\nOh damn Pac-Man just ate ${ghost['name']}!`);
   } else {
@@ -133,6 +150,7 @@ function eatPowerPellet() {
 
 // Process Player's Input
 function processInput(key) {
+  // rand_num = Math.floor(Math.random() * 100);
   switch(key) {
     case '\u0003': // This makes it so CTRL-C will quit the program
     case 'q':
