@@ -83,6 +83,7 @@ function eatGhost(ghost) {
   } else {
     lives -= 1;
     console.log(`\n${ghost['name']} devoured Pac-Man`);
+    checkLives();
   }
 }
 
@@ -113,6 +114,11 @@ function processInput(key) {
   }
 }
 
+function checkLives() {
+  if (lives == 0) {
+    process.exit();
+  }
+}
 
 //
 // YOU PROBABLY DON'T WANT TO CHANGE CODE BELOW THIS LINE
