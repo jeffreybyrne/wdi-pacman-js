@@ -122,10 +122,11 @@ function eatHundredDot() {
 }
 
 function levelCheck() {
-  if (dots == 0) {
+  if (dots == 0 && pellets == 0) {
     if (level < 256) {
       level += 1;
       dots = 240
+      pellets = 4;
       ghosts.forEach(function(ghost) {
         ghost['edible'] = false;
       })
@@ -176,23 +177,23 @@ function eatItem() {
   switch(item) {
     case 'Cherry':
       score += 100;
-      console.log('\nThat was a tasy cherry!')
+      console.log('\nThat was a tasty cherry!')
       break;
     case 'Strawberry':
       score += 300;
-      console.log('\nThat was a tasy strawberry!')
+      console.log('\nThat was a tasty strawberry!')
       break;
     case 'Orange':
       score += 500;
-      console.log('\nThat was a tasy orange!')
+      console.log('\nThat was a tasty orange!')
       break;
     case 'Apple':
       score += 700;
-      console.log('\nThat was a tasy apple!')
+      console.log('\nThat was a tasty apple!')
       break;
     case 'Pineapple':
       score += 1000;
-      console.log('\nThat was a tasy pineapple!')
+      console.log('\nThat was a tasty pineapple!')
       break;
     case 'Galaxian Spaceship':
       score += 2000;
@@ -253,7 +254,7 @@ function processInput(key) {
         eatItem();
         break;
       } else {
-        console.log('\nNo extras to eat!');
+        console.log('\nNo extras to take!');
         break;
       }
     case '1':
