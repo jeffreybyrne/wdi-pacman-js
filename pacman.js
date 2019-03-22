@@ -13,7 +13,7 @@ const inky = {
 }
 
 const blinky = {
-  menu_option: '1',
+  menu_option: '2',
   name: 'Blinky',
   colour: 'Cyan',
   character: 'Speedy',
@@ -21,7 +21,7 @@ const blinky = {
 }
 
 const pinky = {
-  menu_option: '1',
+  menu_option: '3',
   name: 'Pinky',
   colour: 'Pink',
   character: 'Bashful',
@@ -29,14 +29,14 @@ const pinky = {
 }
 
 const clyde = {
-  menu_option: '1',
+  menu_option: '4',
   name: 'Clyde',
   colour: 'Orange',
   character: 'Pokey',
   edible: false
 }
 // replace this comment with your four ghosts setup as objects
-
+const ghosts = [inky, blinky, pinky, clyde]
 
 // Draw the screen functionality
 function drawScreen() {
@@ -59,6 +59,9 @@ function displayStats() {
 function displayMenu() {
   console.log('\n\nSelect Option:\n');  // each \n creates a new line
   console.log('(d) Eat Dot');
+  ghosts.forEach(function(ghost) {
+    console.log(`(${ghost['menu_option']}) Eat ${ghost['name']}`)
+  })
   console.log('(q) Quit');
 }
 
@@ -74,6 +77,10 @@ function eatDot() {
   score += 10;
 }
 
+function eatGhost() {
+  console.log('\nChomp!');
+  score += 10;
+}
 
 // Process Player's Input
 function processInput(key) {
