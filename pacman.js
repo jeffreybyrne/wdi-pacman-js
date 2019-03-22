@@ -5,7 +5,8 @@ let pellets = 4;
 let dots = 240;
 let ghostsEaten = 0;
 let level = 1;
-// let rand_num = 0;
+let item = 'Cherry';
+let rand_num = -1;
 
 
 // Define your ghosts here
@@ -64,6 +65,7 @@ function displayStats() {
 }
 
 function displayMenu() {
+  rand_num = Math.floor(Math.random() * 25);
   console.log('\n\nSelect Option:\n');  // each \n creates a new line
   if (dots > 0) {
     console.log('(d) Eat Dot');
@@ -76,6 +78,9 @@ function displayMenu() {
   }
   if (pellets > 0) {
     console.log('(p) Eat Power-Pellet');
+  }
+  if (rand_num == 9) {
+    console.log(`(j) Eat ${item}`);
   }
   ghosts.forEach(function(ghost) {
     if (ghost['edible']) {
@@ -118,17 +123,36 @@ function eatHundredDot() {
 
 function levelCheck() {
   if (dots == 0) {
-    level += 1;
-    dots = 240
-    ghosts.forEach(function(ghost) {
-      ghost['edible'] = false;
-    })
+    if (level < 256) {
+      level += 1;
+      dots = 240
+      ghosts.forEach(function(ghost) {
+        ghost['edible'] = false;
+      })
+    }
+    if (level == 2) {
+      item = 'Strawberry';
+    } else if (level == 3) {
+      item = 'Orange';
+    } else if (level == 5) {
+      item = 'Apple';
+    } else if (level == 7) {
+      item = 'Pineapple';
+    } else if (level == 9) {
+      item = 'Galaxian Spaceship';
+    } else if (level == 11) {
+      item = 'Bell';
+    } else if (level == 13) {
+      item = 'Key';
+    }
   }
 }
 
 function eatGhost(ghost) {
   if (ghost['edible']) {
-    ghostsEaten += 1;
+    if (ghostsEaten < 4) {
+      ghostsEaten += 1;
+    }
     score += (2**ghostsEaten * 100);
     ghost['edible'] = false;
     console.log(`\nOh damn Pac-Man just ate ${ghost['name']}!`);
@@ -148,9 +172,45 @@ function eatPowerPellet() {
   score += 50;
 }
 
+function eatItem() {
+  switch(item) {
+    case 'Cherry':
+      score += 100;
+      console.log('\nThat was a tasy cherry!')
+      break;
+    case 'Strawberry':
+      score += 300;
+      console.log('\nThat was a tasy strawberry!')
+      break;
+    case 'Orange':
+      score += 500;
+      console.log('\nThat was a tasy orange!')
+      break;
+    case 'Apple':
+      score += 700;
+      console.log('\nThat was a tasy apple!')
+      break;
+    case 'Pineapple':
+      score += 1000;
+      console.log('\nThat was a tasy pineapple!')
+      break;
+    case 'Galaxian Spaceship':
+      score += 2000;
+      console.log('\nWhoa was that a spaceship?!')
+      break;
+    case 'Bell':
+      score += 3000;
+      console.log('\nCool, a fancy bell!')
+      break;
+    case 'Key':
+      score += 5000;
+      console.log('\nThat key sure is worth a lot of points!')
+      break;
+  }
+}
+
 // Process Player's Input
 function processInput(key) {
-  // rand_num = Math.floor(Math.random() * 100);
   switch(key) {
     case '\u0003': // This makes it so CTRL-C will quit the program
     case 'q':
@@ -186,6 +246,14 @@ function processInput(key) {
         break;
       } else {
         console.log('\nNo more power pellets!');
+        break;
+      }
+    case 'j':
+      if (rand_num == 9) {
+        eatItem();
+        break;
+      } else {
+        console.log('\nNo extras to eat!');
         break;
       }
     case '1':
