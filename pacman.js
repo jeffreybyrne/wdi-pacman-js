@@ -2,6 +2,7 @@
 let score = 0;
 let lives = 2;
 let pellets = 4;
+let dots = 240;
 
 
 // Define your ghosts here
@@ -54,19 +55,32 @@ function clearScreen() {
 }
 
 function displayStats() {
-  console.log(`Score: ${score}     Lives: ${lives}`);
+  console.log(`Score: ${score}             Lives: ${lives}`);
   console.log('');
-  console.log(`Power-Pellets: ${pellets}`)
+  console.log(`Power-Pellets: ${pellets}     Dots: ${dots}`)
 }
 
 function displayMenu() {
   console.log('\n\nSelect Option:\n');  // each \n creates a new line
-  console.log('(d) Eat Dot');
+  if (dots > 0) {
+    console.log('(d) Eat Dot');
+  }
+  if (dots > 9) {
+    console.log('(f) Eat Ten Dots');
+  }
+  if (dots > 99) {
+    console.log('(g) Eat One Hundred Dots');
+  }
   if (pellets > 0) {
     console.log('(p) Eat Power-Pellet');
   }
   ghosts.forEach(function(ghost) {
-    console.log(`(${ghost['menu_option']}) Eat ${ghost['name']}`)
+    if (ghost['edible']) {
+      can_eat = '(edible)'
+    } else {
+      can_eat = '(inedible)'
+    }
+    console.log(`(${ghost['menu_option']}) Eat ${ghost['name']} ${can_eat}`)
   })
   console.log('(q) Quit');
 }
@@ -80,7 +94,20 @@ function displayPrompt() {
 // Menu Options
 function eatDot() {
   console.log('\nChomp!');
+  dots -= 1;
   score += 10;
+}
+
+function eatTenDot() {
+  console.log('\nCHOMP!');
+  dots -= 10;
+  score += 100;
+}
+
+function eatHundredDot() {
+  console.log('\nCHOMP!!!!!');
+  dots -= 100;
+  score += 1000;
 }
 
 function eatGhost(ghost) {
@@ -112,8 +139,29 @@ function processInput(key) {
       process.exit();
       break;
     case 'd':
-      eatDot();
-      break;
+      if (dots > 0) {
+        eatDot();
+        break;
+      } else {
+        console.log('\nNo more dots!');
+        break;
+      }
+    case 'f':
+      if (dots > 9) {
+        eatTenDot();
+        break;
+      } else {
+        console.log('\nNot enough dots!');
+        break;
+      }
+    case 'g':
+      if (dots > 99) {
+        eatHundredDot();
+        break;
+      } else {
+        console.log('\nNot enough dots!');
+        break;
+      }
     case 'p':
       if (pellets > 0) {
         eatPowerPellet();
