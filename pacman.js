@@ -85,7 +85,9 @@ function eatDot() {
 
 function eatGhost(ghost) {
   if (ghost['edible']) {
-    console.log('hi');
+    score += 200;
+    ghost['edible'] = false;
+    console.log(`\nOh damn Pac-Man just ate ${ghost['name']}!`);
   } else {
     lives -= 1;
     console.log(`\n${ghost['name']} devoured Pac-Man`);
