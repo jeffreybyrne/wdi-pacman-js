@@ -77,9 +77,13 @@ function eatDot() {
   score += 10;
 }
 
-function eatGhost() {
-  console.log('\nChomp!');
-  score += 10;
+function eatGhost(ghost) {
+  if (ghost['edible']) {
+    console.log('hi');
+  } else {
+    lives -= 1;
+    console.log(`\n${ghost['name']} devoured Pac-Man`);
+  }
 }
 
 // Process Player's Input
@@ -91,6 +95,18 @@ function processInput(key) {
       break;
     case 'd':
       eatDot();
+      break;
+    case '1':
+      eatGhost(inky);
+      break;
+    case '2':
+      eatGhost(blinky);
+      break;
+    case '3':
+      eatGhost(pinky);
+      break;
+    case '4':
+      eatGhost(clyde);
       break;
     default:
       console.log('\nInvalid Command!');
